@@ -29,6 +29,7 @@ obj-y += intel_common/
 obj-$(CONFIG_INTEL_BAYTRAIL) += baytrail/
 obj-$(CONFIG_INTEL_BRASWELL) += braswell/
 obj-$(CONFIG_INTEL_BROADWELL) += broadwell/
+obj-$(CONFIG_INTEL_BROADWELL_DE) += broadwell-de/
 obj-$(CONFIG_SYS_COREBOOT) += coreboot/
 obj-$(CONFIG_EFI_APP) += efi/
 obj-$(CONFIG_QEMU) += qemu/

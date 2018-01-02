@@ -1,0 +1,23 @@
+#
+# Copyright (C) 2017, Vincenzo Bove <vincenzo.bove@prodrive-technologies.com>
+#
+# SPDX-License-Identifier:	GPL-2.0+
+#
+
+if VENDOR_PRODRIVE
+
+choice
+	prompt "Mainboard model"
+	optional
+
+config TARGET_POSEIDON
+	bool "Poseidon"
+	help
+	  This target is for Prodrive Poseidon.
+	  Embedded board hosting x86 Broadwell-DE Xeon processor.
+
+endchoice
+
+source "board/prodrive/poseidon/Kconfig"
+
+endif

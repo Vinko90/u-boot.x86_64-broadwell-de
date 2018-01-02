@@ -225,14 +225,7 @@ unexport CDPATH
 #########################################################################
 
 HOSTARCH := $(shell uname -m | \
-	sed -e s/i.86/x86/ \
-	    -e s/sun4u/sparc64/ \
-	    -e s/arm.*/arm/ \
-	    -e s/sa110/arm/ \
-	    -e s/ppc64/powerpc/ \
-	    -e s/ppc/powerpc/ \
-	    -e s/macppc/powerpc/\
-	    -e s/sh.*/sh/)
+	sed -e s/i.86/x86/)
 
 HOSTOS := $(shell uname -s | tr '[:upper:]' '[:lower:]' | \
 	    sed -e 's/\(cygwin\).*/cygwin/')
@@ -750,20 +743,6 @@ else
 BOARD_SIZE_CHECK =
 endif
 
-# Statically apply RELA-style relocations (currently arm64 only)
-# This is useful for arm64 where static relocation needs to be performed on
-# the raw binary, but certain simulators only accept an ELF file (but don't
-# do the relocation).
-ifneq ($(CONFIG_STATIC_RELA),)
-# $(1) is u-boot ELF, $(2) is u-boot bin, $(3) is text base
-DO_STATIC_RELA = \
-	start=$$($(NM) $(1) | grep __rel_dyn_start | cut -f 1 -d ' '); \
-	end=$$($(NM) $(1) | grep __rel_dyn_end | cut -f 1 -d ' '); \
-	tools/relocate-rela $(2) $(3) $$start $$end
-else
-DO_STATIC_RELA =
-endif
-
 # Always append ALL so that arch config.mk's can add custom ones
 ALL-y += u-boot.srec u-boot.bin u-boot.sym System.map binary_size_check
 
@@ -902,12 +881,6 @@ else
 u-boot.bin: u-boot-nodtb.bin FORCE
 	$(call if_changed,copy)
 endif
-
-%.imx: %.bin
-	$(Q)$(MAKE) $(build)=arch/arm/mach-imx $@
-
-%.vyb: %.imx
-	$(Q)$(MAKE) $(build)=arch/arm/cpu/armv7/vf610 $@
 
 quiet_cmd_copy = COPY    $@
       cmd_copy = cp $< $@
@@ -1068,12 +1041,6 @@ OBJCOPYFLAGS_u-boot-with-tpl.bin = -I binary -O binary \
 tpl/u-boot-with-tpl.bin: tpl/u-boot-tpl.bin u-boot.bin FORCE
 	$(call if_changed,pad_cat)
 
-SPL: spl/u-boot-spl.bin FORCE
-	$(Q)$(MAKE) $(build)=arch/arm/mach-imx $@
-
-u-boot-with-spl.imx u-boot-with-nand-spl.imx: SPL u-boot.bin FORCE
-	$(Q)$(MAKE) $(build)=arch/arm/mach-imx $@
-
 MKIMAGEFLAGS_u-boot.ubl = -n $(UBL_CONFIG) -T ublimage -e $(CONFIG_SYS_TEXT_BASE)
 
 u-boot.ubl: u-boot-with-spl.bin FORCE
@@ -1088,11 +1055,6 @@ spl/u-boot-spl.ais: spl/u-boot-spl.bin FORCE
 OBJCOPYFLAGS_u-boot.ais = -I binary -O binary --pad-to=$(CONFIG_SPL_PAD_TO)
 u-boot.ais: spl/u-boot-spl.ais u-boot.img FORCE
 	$(call if_changed,pad_cat)
-
-u-boot-signed.sb: u-boot.bin spl/u-boot-spl.bin
-	$(Q)$(MAKE) $(build)=arch/arm/cpu/arm926ejs/mxs u-boot-signed.sb
-u-boot.sb: u-boot.bin spl/u-boot-spl.bin
-	$(Q)$(MAKE) $(build)=arch/arm/cpu/arm926ejs/mxs u-boot.sb
 
 # On x600 (SPEAr600) U-Boot is appended to U-Boot SPL.
 # Both images are created using mkimage (crc etc), so that the ROM
@@ -1199,11 +1161,7 @@ MKIMAGEFLAGS_u-boot-spl.pbl = -n $(srctree)/$(CONFIG_SYS_FSL_PBL_RCW:"%"=%) \
 spl/u-boot-spl.pbl: spl/u-boot-spl.bin FORCE
 	$(call if_changed,mkimage)
 
-ifeq ($(ARCH),arm)
-UBOOT_BINLOAD := u-boot.img
-else
 UBOOT_BINLOAD := u-boot.bin
-endif
 
 OBJCOPYFLAGS_u-boot-with-spl-pbl.bin = -I binary -O binary --pad-to=$(CONFIG_SPL_PAD_TO) \
 			  --gap-fill=0xff
@@ -1448,17 +1406,6 @@ System.map:	u-boot
 		@$(call SYSTEM_MAP,$<) > $@
 
 #########################################################################
-
-# ARM relocations should all be R_ARM_RELATIVE (32-bit) or
-# R_AARCH64_RELATIVE (64-bit).
-checkarmreloc: u-boot
-	@RELOC="`$(CROSS_COMPILE)readelf -r -W $< | cut -d ' ' -f 4 | \
-		grep R_A | sort -u`"; \
-	if test "$$RELOC" != "R_ARM_RELATIVE" -a \
-		 "$$RELOC" != "R_AARCH64_RELATIVE"; then \
-		echo "$< contains unexpected relocations: $$RELOC"; \
-		false; \
-	fi
 
 envtools: scripts_basic
 	$(Q)$(MAKE) $(build)=tools/env

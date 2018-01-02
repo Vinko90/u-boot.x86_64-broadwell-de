@@ -105,6 +105,6 @@ _dt_ucode_base_size:
 .globl ucode_base
 ucode_base:	/* Declared in micrcode.h */
 	.long	0			/* microcode base */
-	.long	0			/* microcode size */
+	.long	0xFFFFFFFF	/* microcode size */
 	.long	CONFIG_SYS_MONITOR_BASE	/* code region base */
 	.long	CONFIG_SYS_MONITOR_LEN	/* code region size */

@@ -1,0 +1,5 @@
+dsdt.aml
+dsdt.asl.tmp
+dsdt.c
+
+!*.bin
