@@ -22,6 +22,7 @@
 #define CONFIG_NR_DRAM_BANKS		8
 
 #define CONFIG_LMB
+#define CONFIG_LZO
 
 #undef CONFIG_ZLIB
 #undef CONFIG_GZIP
@@ -79,10 +80,18 @@
  */
 #define CONFIG_SYS_LONGHELP
 #define CONFIG_SYS_CBSIZE			512
+#define CONFIG_SYS_PBSIZE			(CONFIG_SYS_CBSIZE + \
+						 sizeof(CONFIG_SYS_PROMPT) + \
+						 16)
+#define CONFIG_SYS_MAXARGS			16
+#define CONFIG_SYS_BARGSIZE			CONFIG_SYS_CBSIZE
 
 #define CONFIG_SYS_MEMTEST_START		0x00100000
 #define CONFIG_SYS_MEMTEST_END			0x01000000
 #define CONFIG_SYS_LOAD_ADDR			0x20000000
+
+/* Fat write configuration */
+#define CONFIG_FAT_WRITE
 
 /*-----------------------------------------------------------------------
  * CPU Features
@@ -103,6 +112,7 @@
 /*-----------------------------------------------------------------------
  * Environment configuration
  */
+#define CONFIG_ENV_IS_IN_SPI_FLASH
 #define CONFIG_ENV_SIZE			0x01000
 
 /*-----------------------------------------------------------------------
