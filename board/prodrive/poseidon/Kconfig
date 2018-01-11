@@ -1,0 +1,42 @@
+#
+# Copyright (C) 2017, Vincenzo Bove <vincenzo.bove@prodrive-technologies.com>
+#
+# SPDX-License-Identifier:	GPL-2.0+
+
+if TARGET_POSEIDON
+
+config SYS_BOARD
+	default "poseidon"
+
+config SYS_VENDOR
+	default "prodrive"
+
+config SYS_SOC
+	default "broadwell-de"
+
+config SYS_CONFIG_NAME
+	default "poseidon"
+
+config SYS_TEXT_BASE
+	default 0xffdb0000
+
+config BOARD_SPECIFIC_OPTIONS # dummy
+	def_bool y
+	select X86_RESET_VECTOR
+	select INTEL_BROADWELL_DE
+	select BOARD_ROMSIZE_KB_16384
+	select SPI_FLASH_MACRONIX
+
+config PCIE_ECAM_BASE
+	default 0x80000000
+
+config SYS_CAR_ADDR
+	hex
+	default 0xfef00000
+
+config SYS_CAR_SIZE
+	hex
+	default 0x40000
+
+
+endif

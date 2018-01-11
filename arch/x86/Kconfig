@@ -78,6 +78,9 @@ config VENDOR_GOOGLE
 config VENDOR_INTEL
 	bool "Intel"
 
+config VENDOR_PRODRIVE
+	bool "Prodrive"
+
 endchoice
 
 # subarchitectures-specific options below
@@ -105,11 +108,13 @@ source "board/efi/Kconfig"
 source "board/emulation/Kconfig"
 #source "board/google/Kconfig"
 source "board/intel/Kconfig"
+source "board/prodrive/Kconfig"
 
 # platform-specific options below
 source "arch/x86/cpu/baytrail/Kconfig"
 source "arch/x86/cpu/braswell/Kconfig"
 source "arch/x86/cpu/broadwell/Kconfig"
+source "arch/x86/cpu/broadwell-de/Kconfig"
 source "arch/x86/cpu/coreboot/Kconfig"
 source "arch/x86/cpu/ivybridge/Kconfig"
 source "arch/x86/cpu/qemu/Kconfig"

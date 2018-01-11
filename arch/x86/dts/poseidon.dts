@@ -1,0 +1,189 @@
+/*
+ * Copyright (C) 2014, Bin Meng <bmeng.cn@gmail.com>
+ *
+ * SPDX-License-Identifier:	GPL-2.0+
+ */
+
+/dts-v1/;
+
+#include <asm/arch-broadwell-de/fsp/fsp_configs.h>
+#include <dt-bindings/gpio/x86-gpio.h>
+#include <dt-bindings/interrupt-router/intel-irq.h>
+
+/include/ "skeleton.dtsi"
+/include/ "serial.dtsi"
+/include/ "rtc.dtsi"
+/include/ "tsc_timer.dtsi"
+/include/ "coreboot_fb.dtsi"
+
+/ {
+	model = "Intel Broadwell-DE";
+	compatible = "x86", "intel,poseidon", "intel,broadwell-de";
+
+	//#address-cells = <1>;
+	//#size-cells = <1>;
+
+	//binman {
+	//	size = <16>;
+
+	//	intel_spd_ch0_dimm0 {
+	//		pos = <0xfffd0000>;
+	//	};
+	//};
+	
+
+	chosen {
+		stdout-path = "/serial";
+	};
+
+	cpus {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		cpu@0 {
+			device_type = "cpu";
+			compatible = "cpu-x86";
+			reg = <0>;
+			intel,apic-id = <0>;
+		};
+
+		cpu@1 {
+			device_type = "cpu";
+			compatible = "cpu-x86";
+			reg = <1>;
+			intel,apic-id = <1>;
+		};
+
+		cpu@2 {
+			device_type = "cpu";
+			compatible = "cpu-x86";
+			reg = <2>;
+			intel,apic-id = <2>;
+		};
+
+		cpu@3 {
+			device_type = "cpu";
+			compatible = "cpu-x86";
+			reg = <3>;
+			intel,apic-id = <3>;
+		};
+	};
+
+	//memory {
+	//	device_type = "memory";
+	//	reg = <0x0 0x0>;
+	//};
+			
+	tsc-timer {
+		clock-frequency = <1000000000>;
+	};
+
+	pci {
+		compatible = "pci-x86";
+		#address-cells = <3>;
+		#size-cells = <2>;
+		u-boot,dm-pre-reloc;
+		ranges = <0x02000000 0x0 0xc0000000 0xc0000000 0 0x10000000
+			0x42000000 0x0 0xd0000000 0xd0000000 0 0x10000000
+			0x01000000 0x0 0x2000 0x2000 0 0xe000>;
+	};
+
+	/**
+	fsp {
+		compatible = "intel,broadwell-de-fsp";
+		fsp,mem-ecc-support = <MEM_ECC_SUPPORT_AUTO>;
+		fsp,mem-ddr-memory-type = <MEM_DDR_MEMORY_TYPE_UDIMM_AND_RDIMM>;	
+		fsp,mem-rank-multiplication = <MEM_RANK_MULTIPLICATION_AUTO>;
+		fsp,mem-rank-margin-tool = <MEM_RANK_MARGIN_TOOL_AUTO>;
+		fsp,mem-scrambling = <MEM_SCRAMBLING_AUTO>;
+		fsp,mem-refresh-mode = <MEM_REFRESH_MODE_ACC_SELF_REFRESH>;
+		fsp,mem-mc0dt-override = <MEM_MC0DT_OVERRIDE_AUTO>;
+		fsp,mem-ca-parity = <MEM_CA_PARITY_AUTO>;
+		fsp,mem-thermal-throttling = <MEM_THERMAL_THROTTLING_CLOSEDLOOP>;
+		fsp,mem-power-savings-mode = <MEM_POWER_SAVINGS_MODE_AUTO>;
+		fsp,mem-electrical-throttling = <MEM_ELECTRICAL_THROTTLING_DISABLED>;
+		fsp,mem-page-policy = <MEM_PAGE_POLICY_AUTO>;
+		fsp,mem-socket-interleave-below-4g = <MEM_SOCKET_INTERLEAVE_BELOW_4G_DISABLED>;
+		fsp,mem-channel-interleave = <MEM_CHANNEL_INTERLEAVE_AUTO>;
+		fsp,mem-rank-interleave = <MEM_RANK_INTERLEAVE_AUTO>;
+		fsp,pam0-hienable = <PAM0_HIENABLE_RW_DRAM_ONLY>;
+		fsp,pam1-loenable = <PAM1_LOENABLE_RW_DRAM_ONLY>;
+		fsp,pam1-hienable = <PAM1_HIENABLE_RW_DRAM_ONLY>;
+		fsp,pam2-loenable = <PAM2_LOENABLE_RW_DRAM_ONLY>;
+		fsp,pam2-hienable = <PAM2_HIENABLE_RW_DRAM_ONLY>;
+		fsp,pam3-loenable = <PAM3_LOENABLE_RW_DRAM_ONLY>;
+		fsp,pam3-hienable = <PAM3_HIENABLE_RW_DRAM_ONLY>;
+		fsp,pam4-loenable = <PAM4_LOENABLE_RW_DRAM_ONLY>;
+		fsp,pam4-hienable = <PAM4_HIENABLE_RW_DRAM_ONLY>;
+		fsp,pam5-loenable = <PAM5_LOENABLE_RW_DRAM_ONLY>;
+		fsp,pam5-hienable = <PAM5_HIENABLE_RW_DRAM_ONLY>;
+		fsp,pam6-loenable = <PAM6_LOENABLE_RW_DRAM_ONLY>;
+		fsp,pam6-hienable = <PAM6_HIENABLE_RW_DRAM_ONLY>;             					
+		fsp,mem-adr = <MEM_ADR_DISABLED>;
+		fsp,mem-block-sc-traffic-on-adr = <MEM_BLOCKS_TRAFFIC_ON_ADR_DISABLED>;
+		fsp,mem-platform-release-adr-clamps-port = <0x0>;
+		fsp,mem-platform-release-adr-clamps-and = <0xffffffff>;
+		fsp,mem-platform-release-adr-clamps-or = <0x0>;
+		fsp,serial-port-type = <SERIAL_PORT_TYPE_IO>;
+		fsp,serial-port-address = <0x3f8>;
+		fsp,serial-port-configure = <SERIAL_PORT_CONFIGURE_YES>;
+		fsp,serial-port-baudrate = <SERIAL_PORT_BAUDRATE_115200>;
+		fsp,serial-port-controller-init0 = <SERIAL_PORT_CONTROLLER_INIT0_YES>;
+		fsp,serial-port-controller-init1 = <SERIAL_PORT_CONTROLLER_INIT1_YES>;
+		fsp,config-iou1-pci-port3 = <CONFIG_IOU1_PCI_PORT3_X4X4X4X4>;
+		fsp,config-iou2-pci-port1 = <CONFIG_IOU2_PCI_PORT1_XXX8>;
+		fsp,power-state-after-g3 = <POWER_STATE_AFTER_G3_S0>;
+		fsp,pch-pci-port1 = <PCH_PCI_PORT1_ENABLE>;
+		fsp,pch-pci-port2 = <PCH_PCI_PORT2_ENABLE>;
+		fsp,pch-pci-port3 = <PCH_PCI_PORT3_ENABLE>;
+		fsp,pch-pci-port4 = <PCH_PCI_PORT4_ENABLE>;
+		fsp,pch-pci-port5 = <PCH_PCI_PORT5_ENABLE>;
+		fsp,pch-pci-port6 = <PCH_PCI_PORT6_ENABLE>;
+		fsp,pch-pci-port7 = <PCH_PCI_PORT7_ENABLE>;
+		fsp,pch-pci-port8 = <PCH_PCI_PORT8_ENABLE>;
+		fsp,hot-plug-pch-pci-port1 = <HOTPLUG_PCH_PCI_PORT1_DISABLE>;
+		fsp,hot-plug-pch-pci-port2 = <HOTPLUG_PCH_PCI_PORT2_DISABLE>;
+		fsp,hot-plug-pch-pci-port3 = <HOTPLUG_PCH_PCI_PORT3_DISABLE>;
+		fsp,hot-plug-pch-pci-port4 = <HOTPLUG_PCH_PCI_PORT4_DISABLE>;
+		fsp,hot-plug-pch-pci-port5 = <HOTPLUG_PCH_PCI_PORT5_DISABLE>;
+		fsp,hot-plug-pch-pci-port6 = <HOTPLUG_PCH_PCI_PORT6_DISABLE>;
+		fsp,hot-plug-pch-pci-port7 = <HOTPLUG_PCH_PCI_PORT7_DISABLE>;
+		fsp,hot-plug-pch-pci-port8 = <HOTPLUG_PCH_PCI_PORT8_DISABLE>;
+		fsp,ehci1-enable = <EHCI_1ENABLE_ENABLE>;
+		fsp,ehci2-enable = <EHCI_2ENABLE_DISABLE>;
+		fsp,hyper-threading = <HYPER_THREADING_ENABLE>;
+		fsp,debug-output-level = <DEBUG_OUTPUT_LEVEL_NORMAL>;
+		fsp,tco-timer-halt-lock = <TCO_TIMER_HALT_LOCK_YES>;
+		fsp,turbo-mode = <TURBO_MODE_ENABLE>;
+		fsp,boot-perf-mode = <BOOT_PERF_MODE_MAX_PERFORMANCE>;
+		fsp,pcie-port1a-aspm = <PCIE_PORT1A_ASPM_DISABLED>;
+		fsp,pcie-port1b-aspm = <PCIE_PORT1B_ASPM_DISABLED>;
+		fsp,pcie-port3a-aspm = <PCIE_PORT3A_ASPM_DISABLED>;
+		fsp,pcie-port3b-aspm = <PCIE_PORT3B_ASPM_DISABLED>;
+		fsp,pcie-port3c-aspm = <PCIE_PORT3C_ASPM_DISABLED>;
+		fsp,pcie-port3d-aspm = <PCIE_PORT3D_ASPM_DISABLED>;
+		fsp,pch-pcie-port1-aspm = <PCH_PCI_PORT1_ASPM_DISABLED>;
+		fsp,pch-pcie-port2-aspm = <PCH_PCI_PORT2_ASPM_DISABLED>;
+		fsp,pch-pcie-port3-aspm = <PCH_PCI_PORT3_ASPM_DISABLED>;
+		fsp,pch-pcie-port4-aspm = <PCH_PCI_PORT4_ASPM_DISABLED>;
+		fsp,pch-pcie-port5-aspm = <PCH_PCI_PORT5_ASPM_DISABLED>;
+		fsp,pch-pcie-port6-aspm = <PCH_PCI_PORT6_ASPM_DISABLED>;
+		fsp,pch-pcie-port7-aspm = <PCH_PCI_PORT7_ASPM_DISABLED>;
+		fsp,pch-pcie-port8-aspm = <PCH_PCI_PORT8_ASPM_DISABLED>;
+		fsp,dfx-enable = <DFX_ENABLE_DISABLED>;
+		fsp,thermal-device-enable = <THERMAL_DEVICE_ENABLE_ENABLED>;
+	};**/
+
+	microcode {
+		update@0 {
+#include "microcode/broadwell_de_microcode/m1050663_0700000e.dtsi"
+		};
+		update@1 {
+#include "microcode/broadwell_de_microcode/m1050662_00000011.dtsi"
+		};
+		update@2 {
+#include "microcode/broadwell_de_microcode/mff50661_f1000008.dtsi"
+		};
+	};
+
+};

@@ -61,6 +61,7 @@ static const char * const compat_names[COMPAT_COUNT] = {
 	COMPAT(ALTERA_SOCFPGA_DWC2USB, "snps,dwc2"),
 	COMPAT(INTEL_BAYTRAIL_FSP, "intel,baytrail-fsp"),
 	COMPAT(INTEL_BAYTRAIL_FSP_MDP, "intel,baytrail-fsp-mdp"),
+	COMPAT(INTEL_BROADWELL_DE_FSP, "intel,broadwell-de-fsp"),
 	COMPAT(INTEL_IVYBRIDGE_FSP, "intel,ivybridge-fsp"),
 	COMPAT(COMPAT_SUNXI_NAND, "allwinner,sun4i-a10-nand"),
 	COMPAT(ALTERA_SOCFPGA_CLK, "altr,clk-mgr"),

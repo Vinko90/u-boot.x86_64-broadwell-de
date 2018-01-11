@@ -15,6 +15,7 @@ dtb-y += bayleybay.dtb \
 	efi.dtb \
 	galileo.dtb \
 	minnowmax.dtb \
+	poseidon.dtb \
 	qemu-x86_i440fx.dtb \
 	qemu-x86_q35.dtb \
 	theadorable-x86-dfi-bt700.dtb \

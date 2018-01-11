@@ -1,0 +1,59 @@
+#
+# Copyright (C) 2017, Vincenzo Bove <vincenzo.bove@prodrive-technologies.com>
+#
+# SPDX-License-Identifier:	GPL-2.0+
+#
+
+config INTEL_BROADWELL_DE
+	bool
+	select HAVE_FSP
+	select ARCH_MISC_INIT
+	select CPU_INTEL_TURBO_NOT_PACKAGE_SCOPED
+	imply HAVE_INTEL_ME
+	imply AHCI_PCI
+	imply ICH_SPI
+	imply INTEL_ICH6_GPIO
+	imply MMC
+	imply MMC_PCI
+	imply MMC_SDHCI
+	imply MMC_SDHCI_SDMA
+	imply SCSI
+	imply SPI_FLASH
+	imply SYS_NS16550
+	imply USB
+	imply USB_EHCI_HCD
+	imply USB_XHCI_HCD
+	#imply VIDEO_FSP
+
+if INTEL_BROADWELL_DE
+
+config FSP_ADDR
+	hex
+	default 0xffeb0000
+
+config FSP_USE_UPD
+	bool
+	default y
+
+config DCACHE_RAM_BASE
+	default 0xfef00000
+
+config DCACHE_RAM_SIZE
+	default 0x40000
+
+config DCACHE_RAM_MRC_VAR_SIZE
+	default 0x30000
+
+config CPU_SPECIFIC_OPTIONS
+	def_bool y
+	select SMM_TSEG
+
+config SMM_TSEG_SIZE
+	hex
+	default 0x800000
+
+config INTERNAL_UART
+	bool
+	default y
+
+endif

@@ -149,6 +149,7 @@ enum fdt_compat_id {
 	COMPAT_ALTERA_SOCFPGA_DWC2USB,	/* SoCFPGA DWC2 USB controller */
 	COMPAT_INTEL_BAYTRAIL_FSP,	/* Intel Bay Trail FSP */
 	COMPAT_INTEL_BAYTRAIL_FSP_MDP,	/* Intel FSP memory-down params */
+	COMPAT_INTEL_BROADWELL_DE_FSP,  /* Intel Broadwell-DE FSP */
 	COMPAT_INTEL_IVYBRIDGE_FSP,	/* Intel Ivy Bridge FSP */
 	COMPAT_SUNXI_NAND,		/* SUNXI NAND controller */
 	COMPAT_ALTERA_SOCFPGA_CLK,	/* SoCFPGA Clock initialization */
