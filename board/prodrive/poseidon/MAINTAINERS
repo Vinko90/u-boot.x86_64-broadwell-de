@@ -1,6 +1,0 @@
-Prodrive Poseidon x86 Broadwell-DE
-M:	Vincenzo Bove <vincenzo.bove@prodrive-technologies.com>
-S:	Maintained
-F:	board/prodrive/poseidon
-F:	include/configs/poseidon.h
-F:	configs/poseidon_defconfig
