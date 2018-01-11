@@ -97,13 +97,13 @@ config INTEL_MID
 	  derivatives.
 
 # board-specific options below
-source "board/advantech/Kconfig"
-source "board/congatec/Kconfig"
+#source "board/advantech/Kconfig"
+#source "board/congatec/Kconfig"
 source "board/coreboot/Kconfig"
-source "board/dfi/Kconfig"
+#source "board/dfi/Kconfig"
 source "board/efi/Kconfig"
 source "board/emulation/Kconfig"
-source "board/google/Kconfig"
+#source "board/google/Kconfig"
 source "board/intel/Kconfig"
 
 # platform-specific options below
