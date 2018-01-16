@@ -771,6 +771,30 @@ config HIGH_TABLE_SIZE
 	  Increse it if the default size does not fit the board's needs.
 	  This is most likely due to a large ACPI DSDT table is used.
 
+config FSP_MEMORY_DOWN
+	bool "Platform has memory down"
+	help
+	  Select this option if your platform has memory soldered on the motherboard and FSP need SPD file.
+
+config HAVE_SPD
+	bool "Add SPD file"
+	help
+	  Select this option if you have a SPD binary file for your memorydown.
+
+config SPD_FILE
+	string "SPD image filename"
+	depends on HAVE_SPD
+	default "spd_ch0_dimm0.bin"
+	help
+	  The filename of the ram SPD binary.
+
+config SPD_ADDR
+	hex "SPD image location"
+	depends on HAVE_SPD
+	default 0xffcb0000
+	help
+	  The location of the SPD binary file.
+
 source "arch/x86/lib/efi/Kconfig"
 
 endmenu

@@ -56,4 +56,12 @@ config INTERNAL_UART
 	bool
 	default y
 
+config FSP_MEMORY_DOWN
+	bool
+	default y
+
+config HAVE_SPD
+	bool
+	default y
+
 endif
