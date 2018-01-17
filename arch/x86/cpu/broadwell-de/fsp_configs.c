@@ -119,9 +119,7 @@ void update_fsp_configs(struct fsp_config_data *config,
                       0x0);
 	} 
 
-	//#ifdef CONFIG_ENABLE_MRC_CACHE
-		fsp_upd->memFastBoot = fdtdec_get_bool(blob, node, "fsp,mem-fast-boot");
-	//#endif
+  fsp_upd->memFastBoot = fdtdec_get_int(blob, node, "fsp,mem-fast-boot", 1);
 
 	fsp_upd->pam0_hienable = fdtdec_get_int(blob, node, 
                       "fsp,pam0-hienable", 
