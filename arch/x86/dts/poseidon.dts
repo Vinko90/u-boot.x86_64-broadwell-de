@@ -9,7 +9,6 @@
 #include <asm/arch-broadwell-de/fsp/fsp_configs.h>
 #include <dt-bindings/gpio/x86-gpio.h>
 #include <dt-bindings/interrupt-router/intel-irq.h>
-//#include <asm/arch/spd.h>
 
 /include/ "skeleton.dtsi"
 /include/ "serial.dtsi"
@@ -57,11 +56,6 @@
 			intel,apic-id = <3>;
 		};
 	};
-
-	//memory {
-	//	device_type = "memory";
-	//	reg = <0x0 0x0>;
-	//};
 			
 	tsc-timer {
 		clock-frequency = <1000000000>;
@@ -103,9 +97,9 @@
 			fsp,memDownCh1Dimm1SpdPtr = <0x0>;
 		#endif
 
-		#ifdef CONFIG_ENABLE_MRC_CACHE
+		//#ifdef CONFIG_ENABLE_MRC_CACHE
 			fsp,mem-fast-boot;
-		#endif
+		//#endif
 
         fsp,pam0-hienable = <PAM_RW_DRAM_ONLY>;
 		fsp,pam1-loenable = <PAM_RW_DRAM_ONLY>;
