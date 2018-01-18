@@ -69,6 +69,35 @@
 		ranges = <0x02000000 0x0 0xc0000000 0xc0000000 0 0x10000000
 			0x42000000 0x0 0xd0000000 0xd0000000 0 0x10000000
 			0x01000000 0x0 0x2000 0x2000 0 0xe000>;
+
+		pch@1f,0 {
+			reg = <0x0000f800 0 0 0 0>;
+			compatible = "intel,pch9";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			irq-router {
+				compatible = "intel,irq-router";
+				intel,pirq-config = "ibase";
+				intel,ibase-offset = <0x50>;
+				intel,pirq-link = <8 8>;
+				intel,pirq-mask = <0xdee0>;
+				intel,pirq-routing = <
+					/* Braswell PCI devices */
+					/*PCI_BDF(0, 2, 0) INTA PIRQA
+					PCI_BDF(0, 3, 0) INTA PIRQA*/
+					
+
+					/*
+					 * PCIe root ports downstream
+					 * interrupts
+					 */
+					/*PCI_BDF(1, 0, 0) INTA PIRQA
+					PCI_BDF(1, 0, 0) INTB PIRQB*/
+				>;
+			};
+
+		};
 	};
 
 	fsp {

@@ -19,8 +19,6 @@
 #include <asm/mrccache.h>
 #include <asm/lapic.h>
 
-#define BROADWELL_BCLK		100
-
 static void configure_mca(void)
 {
 	msr_t msr;
@@ -63,10 +61,8 @@ static int cpu_x86_broadwell_de_probe(struct udevice *dev)
 
 	/* Enable the local cpu apics */
 	lapic_setup();
-	enable_lapic();
-
-	if (lapicid())
-		turbo_enable();
+	
+	//turbo_enable();
 
 	return 0;
 }
@@ -74,19 +70,21 @@ static int cpu_x86_broadwell_de_probe(struct udevice *dev)
 
 static int broadwell_de_get_info(struct udevice *dev, struct cpu_info *info)
 {
-	msr_t msr;
-
-	msr = msr_read(IA32_PERF_CTL);
-	info->cpu_freq = ((msr.lo >> 8) & 0xff) * BROADWELL_BCLK * 1000000;
-	info->features = 1 << CPU_FEAT_L1_CACHE | 1 << CPU_FEAT_MMU |
-		1 << CPU_FEAT_UCODE | 1 << CPU_FEAT_DEVICE_ID;
-
-	return 0;
+	char processor_name[CPU_MAX_NAME_LEN];
+    const char *name;
+  
+    /* Print processor name */
+    name = cpu_get_name(processor_name);
+    printf("CPU:   %s\n", name);
+  
+    post_code(POST_CPU_INFO);
+  
+    return 0;
 }
 
 static int broadwell_de_get_count(struct udevice *dev)
 {
-	return 4;
+	return cpu_get_count(dev);
 }
 
 static const struct cpu_ops cpu_x86_broadwell_de_ops = {

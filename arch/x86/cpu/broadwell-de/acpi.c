@@ -15,8 +15,12 @@
 #include <asm/arch/global_nvs.h>
 #include <asm/arch/iomap.h>
 
-#define PWR_FLR (1 << 1)
-#define SUS_PWR_FLR (1 << 14)
+u32 acpi_fill_mcfg(u32 current)
+{
+	current += acpi_create_mcfg_mmconfig((struct acpi_mcfg_mmconfig *)current, MCFG_BASE_ADDRESS, 0, 0, 255);
+
+	return current;
+}
 
 void acpi_create_fadt(struct acpi_fadt *fadt, struct acpi_facs *facs,
 		      void *dsdt)
@@ -53,13 +57,13 @@ void acpi_create_fadt(struct acpi_fadt *fadt, struct acpi_facs *facs,
 	fadt->pstate_cnt = 0;
 
 	/* Control Registers - Base Address */
-	fadt->pm1a_evt_blk = pmbase;
+	fadt->pm1a_evt_blk = pmbase + 0x00; //PM1_STS
 	fadt->pm1b_evt_blk = 0x0;
-	fadt->pm1a_cnt_blk = pmbase + 0x4;
+	fadt->pm1a_cnt_blk = pmbase + 0x04; //PM1_CNT
 	fadt->pm1b_cnt_blk = 0x0;
-	fadt->pm2_cnt_blk = pmbase + 0x50;
-	fadt->pm_tmr_blk = pmbase + 0x8;
-	fadt->gpe0_blk = pmbase + 0x20;
+	fadt->pm2_cnt_blk = pmbase + 0x50; //PM2A_CNT_BLK
+	fadt->pm_tmr_blk = pmbase + 0x8; //PM1_TMR
+	fadt->gpe0_blk = pmbase + 0x20; //GPE0_STS
 	fadt->gpe1_blk = 0;
 
 	/* Control Registers - Length */
@@ -96,7 +100,7 @@ void acpi_create_fadt(struct acpi_fadt *fadt, struct acpi_facs *facs,
 	fadt->reset_reg.access_size = ACPI_ACCESS_SIZE_BYTE_ACCESS;
 	fadt->reset_reg.addrl = IO_PORT_RESET;
 	fadt->reset_reg.addrh = 0;
-	fadt->reset_value = SYS_RST | RST_CPU | FULL_RST;
+	fadt->reset_value = 6; //SYS_RST | RST_CPU | FULL_RST
 
 	/* Extended ACPI Pointers */
 	fadt->x_firmware_ctl_l = (u32)facs;
@@ -189,48 +193,3 @@ void acpi_create_gnvs(struct acpi_global_nvs *gnvs)
 	else
 		gnvs->iuart_en = 0;
 }
-
-#ifdef CONFIG_HAVE_ACPI_RESUME
-/*
- * The following two routines are called at a very early stage, even before
- * FSP 2nd phase API fsp_init() is called. Registers off ACPI_BASE_ADDRESS
- * and PMC_BASE_ADDRESS are accessed, so we need make sure the base addresses
- * of these two blocks are programmed by either U-Boot or FSP.
- *
- * It has been verified that 1st phase API (see arch/x86/lib/fsp/fsp_car.S)
- * on Intel BayTrail SoC already initializes these two base addresses so
- * we are safe to access these registers here.
- */
-
-enum acpi_sleep_state chipset_prev_sleep_state(void)
-{
-	u32 pm1_sts;
-	u32 pm1_cnt;
-	u32 gen_pmcon1;
-	enum acpi_sleep_state prev_sleep_state = ACPI_S0;
-
-	/* Read Power State */
-	pm1_sts = inw(ACPI_BASE_ADDRESS + 0x00);
-	pm1_cnt = inl(ACPI_BASE_ADDRESS + 0x04);
-	gen_pmcon1 = readl(0xfed03000 + 0x20);
-	
-	//debug("PM1_STS = 0x%x PM1_CNT = 0x%x GEN_PMCON1 = 0x%x\n",
-	  //    pm1_sts, pm1_cnt, gen_pmcon1);
-
-	if (pm1_sts & WAK_STS)
-		prev_sleep_state = acpi_sleep_from_pm1(pm1_cnt);
-
-	if (gen_pmcon1 & (PWR_FLR | SUS_PWR_FLR))
-		prev_sleep_state = ACPI_S5;
-
-	return prev_sleep_state;
-}
-
-void chipset_clear_sleep_state(void)
-{
-	u32 pm1_cnt;
-
-	pm1_cnt = inl(ACPI_BASE_ADDRESS + 0x04);
-	outl(pm1_cnt & ~(SLP_TYP), ACPI_BASE_ADDRESS + 0x04);
-}
-#endif

@@ -1,6 +1,7 @@
 {
     "git.ignoreLimitWarning": true,
     "files.associations": {
-        "iomap.h": "c"
+        "iomap.h": "c",
+        "dm.h": "c"
     }
 }
