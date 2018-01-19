@@ -24,7 +24,7 @@
 		stdout-path = "/serial";
 	};
 
-	cpus {
+	/*cpus {
 		#address-cells = <1>;
 		#size-cells = <0>;
 
@@ -55,7 +55,7 @@
 			reg = <3>;
 			intel,apic-id = <3>;
 		};
-	};
+	};*/
 			
 	tsc-timer {
 		clock-frequency = <1000000000>;
@@ -159,7 +159,7 @@
 		fsp,pch-pci-port8;
 		fsp,ehci1-enable;
 		fsp,hyper-threading;
-		fsp,debug-output-level = <DEBUG_OUTPUT_LEVEL_NORMAL>;
+		fsp,debug-output-level = <DEBUG_OUTPUT_LEVEL_MAXIMUM>;
 		fsp,tco-timer-halt-lock;
 		fsp,turbo-mode;
 		fsp,boot-perf-mode;

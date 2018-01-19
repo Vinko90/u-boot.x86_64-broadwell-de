@@ -225,7 +225,7 @@ void update_fsp_configs(struct fsp_config_data *config,
 	
   fsp_upd->debugOutputLevel = fdtdec_get_int(blob, node, 
                         "fsp,debug-output-level", 
-                        DEBUG_OUTPUT_LEVEL_NORMAL);
+                        DEBUG_OUTPUT_LEVEL_MAXIMUM);
 	
   fsp_upd->tcoTimerHaltLock = fdtdec_get_bool(blob, node, "fsp,tco-timer-halt-lock");
 	
