@@ -36,14 +36,19 @@ config FSP_USE_UPD
 	bool
 	default y
 
+config FSP_MEMORY_DOWN
+	bool
+	default y
+
+config HAVE_SPD
+	bool
+	default y
+
 config DCACHE_RAM_BASE
 	default 0xfef00000
 
 config DCACHE_RAM_SIZE
-	default 0x40000
-
-config DCACHE_RAM_MRC_VAR_SIZE
-	default 0x30000
+	default 0x4000
 
 config CPU_SPECIFIC_OPTIONS
 	def_bool y
@@ -57,12 +62,8 @@ config INTERNAL_UART
 	bool
 	default y
 
-config FSP_MEMORY_DOWN
-	bool
-	default y
-
-config HAVE_SPD
-	bool
-	default y
+config MAX_CPUS
+	int
+	default 16
 
 endif

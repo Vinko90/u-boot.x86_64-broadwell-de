@@ -10,10 +10,13 @@
 #include <dm/uclass-internal.h>
 #include <asm/acpi_s3.h>
 #include <asm/acpi_table.h>
+#include <asm/ioapic.h>
 #include <asm/io.h>
 #include <asm/tables.h>
 #include <asm/arch/global_nvs.h>
 #include <asm/arch/iomap.h>
+#include <asm/mpspec.h>
+
 
 u32 acpi_fill_mcfg(u32 current)
 {
@@ -21,6 +24,59 @@ u32 acpi_fill_mcfg(u32 current)
 
 	return current;
 }
+
+static int acpi_sci_irq(void)
+{
+	uint8_t actl =0;
+	static uint8_t sci_irq = 0;
+	//To be completed
+	
+	return sci_irq;
+}
+
+unsigned long acpi_madt_irq_overrides(unsigned long current)
+{
+	int sci_irq = acpi_sci_irq();
+	struct acpi_madt_irqoverride *irqovr;
+	uint16_t sci_flags = MP_IRQ_TRIGGER_LEVEL;
+
+	/* INT_SRC_OVR */
+	irqovr = (void *)current;
+	current += acpi_create_madt_irqoverride(irqovr, 0, 0, 2, 0);
+
+	if (sci_irq >= 20)
+		sci_flags |= MP_IRQ_POLARITY_LOW;
+	else
+		sci_flags |= MP_IRQ_POLARITY_HIGH;
+
+	irqovr = (void *)current;
+	current += acpi_create_madt_irqoverride(irqovr, 0, sci_irq, sci_irq, sci_flags);
+	
+	return current;
+}
+
+u32 acpi_fill_madt(u32 current)
+{
+	u32 i;
+
+	current = acpi_create_madt_lapics(current);
+
+	current += acpi_create_madt_ioapic((struct acpi_madt_ioapic *)current, 8, IOXAPIC1_BASE_ADDRESS, 0);
+	io_apic_set_id(8);
+
+	current += acpi_create_madt_ioapic((struct acpi_madt_ioapic *)current, 9, IOXAPIC2_BASE_ADDRESS, 24);
+	io_apic_set_id(9);
+
+	current = acpi_madt_irq_overrides(current);
+
+	for(i = 0; i < 16; i++)
+	{
+		current += acpi_create_madt_lapic_nmi((struct acpi_madt_lapic_nmi *)current, i, 0xD, 1);
+	}
+
+	return current;
+}
+
 
 void acpi_create_fadt(struct acpi_fadt *fadt, struct acpi_facs *facs,
 		      void *dsdt)
