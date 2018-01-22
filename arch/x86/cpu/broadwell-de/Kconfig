@@ -32,10 +32,6 @@ config FSP_USE_UPD
 	bool
 	default y
 
-config FSP_BROKEN_HOB
-	bool
-	default y
-
 config FSP_MEMORY_DOWN
 	bool
 	default y
