@@ -7,21 +7,13 @@
 #include <asm/arch/device.h>
 
 #define PCI_DEV_PIRQ_ROUTES \
-		PCI_DEV_PIRQ_ROUTE(0,  A, B, C, D), \
-		PCI_DEV_PIRQ_ROUTE(1,  A, B, C, D), \
-		PCI_DEV_PIRQ_ROUTE(2,  A, B, C, D), \
-		PCI_DEV_PIRQ_ROUTE(3,  A, B, C, D), \
-		PCI_DEV_PIRQ_ROUTE(4,  A, B, C, D), \
-		PCI_DEV_PIRQ_ROUTE(5,  A, B, C, D), \
-		PCI_DEV_PIRQ_ROUTE(6,  A, B, C, D), \
 		PCI_DEV_PIRQ_ROUTE(XHCI_DEV,  A, B, C, D), \
-		PCI_DEV_PIRQ_ROUTE(ME_DEV,    A, B, A, B), \
-		PCI_DEV_PIRQ_ROUTE(EHCI2_DEV, A, B, C, D), \
-		PCI_DEV_PIRQ_ROUTE(GBE_DEV,   E, F, G, H), \
-		PCI_DEV_PIRQ_ROUTE(HDA_DEV,   G, B, C, D), \
+		PCI_DEV_PIRQ_ROUTE(ME_DEV,    A, B, C, D), \
+		PCI_DEV_PIRQ_ROUTE(GBE_DEV,   A, B, C, D), \
+		PCI_DEV_PIRQ_ROUTE(HDA_DEV,   A, B, C, D), \
 		PCI_DEV_PIRQ_ROUTE(PCIE_DEV,  A, B, C, D), \
 		PCI_DEV_PIRQ_ROUTE(EHCI1_DEV, A, B, C, D), \
-		PCI_DEV_PIRQ_ROUTE(SATA_DEV,  A, D, C, A)
+		PCI_DEV_PIRQ_ROUTE(SATA_DEV,  A, B, C, D)
 
 /*
 * Route each PIRQ[A-H] to a PIC IRQ[0-15]

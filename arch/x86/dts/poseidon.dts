@@ -83,17 +83,26 @@
 				intel,pirq-link = <8 8>;
 				intel,pirq-mask = <0xdee0>;
 				intel,pirq-routing = <
-					/* Braswell PCI devices */
-					/*PCI_BDF(0, 2, 0) INTA PIRQA
-					PCI_BDF(0, 3, 0) INTA PIRQA*/
-					
-
-					/*
-					 * PCIe root ports downstream
-					 * interrupts
-					 */
-					/*PCI_BDF(1, 0, 0) INTA PIRQA
-					PCI_BDF(1, 0, 0) INTB PIRQB*/
+					/*PCI_BDF(0, 31, 0)	LPC Controller does not generate an interrupt	*/
+					PCI_BDF(0, 31, 2) INTB PIRQB	/* SATA Controller #1 */
+					PCI_BDF(0, 31, 3) INTC PIRQC	/* SMBus Controller */
+					PCI_BDF(0, 31, 5) INTB PIRQB    /* SATA Controller #2 */
+					PCI_BDF(0, 31, 6) INTC PIRQC    /* Thermal Subsystem */
+					PCI_BDF(0, 29, 0) INTA PIRQA    /* USB EHCI Controller #1 */
+					PCI_BDF(0, 28, 0) INTA PIRQA    /* PCI Express Port 1 */
+					PCI_BDF(0, 28, 1) INTB PIRQB    /* PCI Express Port 2 */
+					PCI_BDF(0, 28, 2) INTC PIRQC    /* PCI Express Port 3 */
+					PCI_BDF(0, 28, 3) INTD PIRQD    /* PCI Express Port 4 */
+					PCI_BDF(0, 28, 4) INTA PIRQA    /* PCI Express Port 5 */
+					PCI_BDF(0, 28, 5) INTB PIRQB    /* PCI Express Port 6 */
+					PCI_BDF(0, 28, 6) INTC PIRQC    /* PCI Express Port 7 */
+					PCI_BDF(0, 28, 7) INTD PIRQD    /* PCI Express Port 8 */
+					PCI_BDF(0, 25, 0) INTA PIRQA    /* Gigabit Ethernet Controller*/
+					PCI_BDF(0, 22, 0) INTA PIRQA    /* Intel Management Engine Interface #1 */
+					PCI_BDF(0, 22, 1) INTB PIRQB    /* Intel Management Engine Interface #2*/
+					PCI_BDF(0, 22, 2) INTC PIRQC    /* IDE-R*/
+					PCI_BDF(0, 22, 3) INTD PIRQD    /* KT*/
+					PCI_BDF(0, 20, 0) INTA PIRQA    /* xHCI Controller */
 				>;
 			};
 
@@ -102,7 +111,7 @@
 
 	fsp {
 		compatible = "intel,broadwell-de-fsp";
-		fsp,memEccSupport = <MEM_ECC_SUPPORT_AUTO>;
+		/*fsp,memEccSupport = <MEM_ECC_SUPPORT_AUTO>;
         fsp,memDdrMemoryType = <MEM_DDR_MEMORY_TYPE_UDIMM_AND_RDIMM>;	
 		fsp,memRankMultiplication = <MEM_RANK_MULTIPLICATION_AUTO>;
         fsp,memRankMarginTool = <MEM_RANK_MARGIN_TOOL_AUTO>;
@@ -116,7 +125,7 @@
 		fsp,memPagePolicy = <MEM_PAGE_POLICY_AUTO>;
 		fsp,memSocketInterleaveBelow4G = <MEM_SOCKET_INTERLEAVE_BELOW_4G_DISABLED>;
 		fsp,memChannelInterleave = <MEM_CHANNEL_INTERLEAVE_AUTO>;
-		fsp,memRankInterleave = <MEM_RANK_INTERLEAVE_AUTO>;
+		fsp,memRankInterleave = <MEM_RANK_INTERLEAVE_AUTO>;*/
 		
 		#ifdef CONFIG_FSP_MEMORY_DOWN
 			fsp,memDownEnable;
@@ -126,8 +135,13 @@
 			fsp,memDownCh1Dimm1SpdPtr = <0x0>;
 		#endif
 
-		fsp,mem-fast-boot = <0>;
-        fsp,pam0-hienable = <PAM_RW_DRAM_ONLY>;
+		#ifdef CONFIG_ENABLE_MRC_CACHE
+			fsp,mem-fast-boot = <MEM_FAST_BOOT_ENABLE>;
+		#else
+			fsp,mem-fast-boot = <MEM_FAST_BOOT_DISABLE>;
+		#endif
+
+        /*fsp,pam0-hienable = <PAM_RW_DRAM_ONLY>;
 		fsp,pam1-loenable = <PAM_RW_DRAM_ONLY>;
 		fsp,pam1-hienable = <PAM_RW_DRAM_ONLY>;
 		fsp,pam2-loenable = <PAM_RW_DRAM_ONLY>;
@@ -159,7 +173,7 @@
 		fsp,pch-pci-port8;
 		fsp,ehci1-enable;
 		fsp,hyper-threading;
-		fsp,debug-output-level = <DEBUG_OUTPUT_LEVEL_MAXIMUM>;
+		fsp,debug-output-level = <DEBUG_OUTPUT_LEVEL_NORMAL>;
 		fsp,tco-timer-halt-lock;
 		fsp,turbo-mode;
 		fsp,boot-perf-mode;
@@ -177,7 +191,7 @@
         fsp,pch-pcie-port6-aspm = <PCH_PCI_ASPM_DISABLED>;
         fsp,pch-pcie-port7-aspm = <PCH_PCI_ASPM_DISABLED>;
         fsp,pch-pcie-port8-aspm = <PCH_PCI_ASPM_DISABLED>;
-		fsp,thermal-device-enable;
+		fsp,thermal-device-enable;*/
 	};
 
 	microcode {

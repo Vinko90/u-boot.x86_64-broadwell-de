@@ -52,17 +52,10 @@ static void configure_mca(void)
 
 static int cpu_x86_broadwell_de_probe(struct udevice *dev)
 {	
-	if (!ll_boot_init())
-		return 0;
 	debug("Init Broadwell-DE core\n");
 
 	/* Clear out pending MCEs */
 	configure_mca();
-
-	/* Enable the local cpu apics */
-	lapic_setup();
-	
-	//turbo_enable();
 
 	return 0;
 }

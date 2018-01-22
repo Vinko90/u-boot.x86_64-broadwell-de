@@ -128,4 +128,7 @@ struct fspinit_rtbuf {
 #define DEBUG_OUTPUT_LEVEL_NORMAL				2
 #define DEBUG_OUTPUT_LEVEL_MAXIMUM				3
 
+#define MEM_FAST_BOOT_DISABLE					0
+#define MEM_FAST_BOOT_ENABLE					1
+
 #endif /* __FSP_CONFIGS_H__ */

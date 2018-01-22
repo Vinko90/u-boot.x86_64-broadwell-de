@@ -2,6 +2,7 @@
     "git.ignoreLimitWarning": true,
     "files.associations": {
         "iomap.h": "c",
-        "dm.h": "c"
+        "dm.h": "c",
+        "uclass.h": "c"
     }
 }

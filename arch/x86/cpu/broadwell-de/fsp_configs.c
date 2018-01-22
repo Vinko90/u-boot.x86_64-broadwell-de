@@ -8,8 +8,6 @@
 #include <fdtdec.h>
 #include <asm/fsp/fsp_support.h>
 
-#define CONFIG_FSP_MEMORY_DOWN 1
-
 DECLARE_GLOBAL_DATA_PTR;
 
 /**
@@ -35,9 +33,7 @@ void update_fsp_configs(struct fsp_config_data *config,
 		return;
 	}
 
-  debug("%s: FSP node found!\n", __func__);
-
-	fsp_upd->memEccSupport = fdtdec_get_int(blob, node, 
+	/*fsp_upd->memEccSupport = fdtdec_get_int(blob, node, 
                       "fsp,memEccSupport",
                        MEM_ECC_SUPPORT_AUTO);
 
@@ -96,11 +92,10 @@ void update_fsp_configs(struct fsp_config_data *config,
   fsp_upd->memRankInterleave = fdtdec_get_int(blob, node, 
                       "fsp,memRankInterleave", 
                       MEM_RANK_INTERLEAVE_AUTO);
-	
+	*/
 
-	if(CONFIG_FSP_MEMORY_DOWN){
-
-		fsp_upd->memDownEnable = fdtdec_get_bool(blob, node, "fsp,memDownEnable");
+  #ifdef CONFIG_FSP_MEMORY_DOWN
+    fsp_upd->memDownEnable = fdtdec_get_bool(blob, node, "fsp,memDownEnable");
 
 		fsp_upd->memDownCh0Dimm0SpdPtr = fdtdec_get_int(blob, node, 
                       "fsp,memDownCh0Dimm0SpdPtr", 
@@ -117,10 +112,15 @@ void update_fsp_configs(struct fsp_config_data *config,
     fsp_upd->memDownCh1Dimm1SpdPtr = fdtdec_get_int(blob, node, 
                       "fsp,memDownCh1Dimm1SpdPtr", 
                       0x0);
-	} 
+  #endif
 
-  fsp_upd->memFastBoot = fdtdec_get_int(blob, node, "fsp,mem-fast-boot", 0);
-
+  #ifdef CONFIG_ENABLE_MRC_CACHE
+    fsp_upd->memFastBoot = fdtdec_get_int(blob, node, "fsp,mem-fast-boot", MEM_FAST_BOOT_ENABLE);
+  #else
+    fsp_upd->memFastBoot = fdtdec_get_int(blob, node, "fsp,mem-fast-boot", MEM_FAST_BOOT_DISABLE);
+  #endif
+        
+/*
 	fsp_upd->pam0_hienable = fdtdec_get_int(blob, node, 
                       "fsp,pam0-hienable", 
                       PAM_RW_DRAM_ONLY);
@@ -225,7 +225,7 @@ void update_fsp_configs(struct fsp_config_data *config,
 	
   fsp_upd->debugOutputLevel = fdtdec_get_int(blob, node, 
                         "fsp,debug-output-level", 
-                        DEBUG_OUTPUT_LEVEL_MAXIMUM);
+                        DEBUG_OUTPUT_LEVEL_NORMAL);
 	
   fsp_upd->tcoTimerHaltLock = fdtdec_get_bool(blob, node, "fsp,tco-timer-halt-lock");
 	
@@ -289,5 +289,5 @@ void update_fsp_configs(struct fsp_config_data *config,
                           "fsp,pch-pcie-port8-aspm", 
                           PCH_PCI_ASPM_DISABLED);
 	
-  fsp_upd->thermalDeviceEnable = fdtdec_get_bool(blob, node, "fsp,thermal-device-enable");
+  fsp_upd->thermalDeviceEnable = fdtdec_get_bool(blob, node, "fsp,thermal-device-enable");*/
 }
