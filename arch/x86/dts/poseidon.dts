@@ -111,7 +111,7 @@
 
 	fsp {
 		compatible = "intel,broadwell-de-fsp";
-		/*fsp,memEccSupport = <MEM_ECC_SUPPORT_AUTO>;
+		fsp,memEccSupport = <MEM_ECC_SUPPORT_DISABLED>;
         fsp,memDdrMemoryType = <MEM_DDR_MEMORY_TYPE_UDIMM_AND_RDIMM>;	
 		fsp,memRankMultiplication = <MEM_RANK_MULTIPLICATION_AUTO>;
         fsp,memRankMarginTool = <MEM_RANK_MARGIN_TOOL_AUTO>;
@@ -125,8 +125,8 @@
 		fsp,memPagePolicy = <MEM_PAGE_POLICY_AUTO>;
 		fsp,memSocketInterleaveBelow4G = <MEM_SOCKET_INTERLEAVE_BELOW_4G_DISABLED>;
 		fsp,memChannelInterleave = <MEM_CHANNEL_INTERLEAVE_AUTO>;
-		fsp,memRankInterleave = <MEM_RANK_INTERLEAVE_AUTO>;*/
-		
+		fsp,memRankInterleave = <MEM_RANK_INTERLEAVE_AUTO>;
+
 		#ifdef CONFIG_FSP_MEMORY_DOWN
 			fsp,memDownEnable;
 			fsp,memDownCh0Dimm0SpdPtr = <CONFIG_SPD_ADDR>;
@@ -141,7 +141,7 @@
 			fsp,mem-fast-boot = <MEM_FAST_BOOT_DISABLE>;
 		#endif
 
-        /*fsp,pam0-hienable = <PAM_RW_DRAM_ONLY>;
+        fsp,pam0-hienable = <PAM_RW_DRAM_ONLY>;
 		fsp,pam1-loenable = <PAM_RW_DRAM_ONLY>;
 		fsp,pam1-hienable = <PAM_RW_DRAM_ONLY>;
 		fsp,pam2-loenable = <PAM_RW_DRAM_ONLY>;
@@ -173,7 +173,7 @@
 		fsp,pch-pci-port8;
 		fsp,ehci1-enable;
 		fsp,hyper-threading;
-		fsp,debug-output-level = <DEBUG_OUTPUT_LEVEL_NORMAL>;
+		fsp,debug-output-level = <DEBUG_OUTPUT_LEVEL_MAXIMUM>;
 		fsp,tco-timer-halt-lock;
 		fsp,turbo-mode;
 		fsp,boot-perf-mode;
@@ -191,7 +191,7 @@
         fsp,pch-pcie-port6-aspm = <PCH_PCI_ASPM_DISABLED>;
         fsp,pch-pcie-port7-aspm = <PCH_PCI_ASPM_DISABLED>;
         fsp,pch-pcie-port8-aspm = <PCH_PCI_ASPM_DISABLED>;
-		fsp,thermal-device-enable;*/
+		fsp,thermal-device-enable;
 	};
 
 	microcode {

@@ -33,9 +33,9 @@ void update_fsp_configs(struct fsp_config_data *config,
 		return;
 	}
 
-	/*fsp_upd->memEccSupport = fdtdec_get_int(blob, node, 
+  fsp_upd->memEccSupport = fdtdec_get_int(blob, node, 
                       "fsp,memEccSupport",
-                       MEM_ECC_SUPPORT_AUTO);
+                       MEM_ECC_SUPPORT_DISABLED);
 
 	fsp_upd->memDdrMemoryType = fdtdec_get_int(blob, node, 
                       "fsp,memDdrMemoryType",
@@ -92,7 +92,6 @@ void update_fsp_configs(struct fsp_config_data *config,
   fsp_upd->memRankInterleave = fdtdec_get_int(blob, node, 
                       "fsp,memRankInterleave", 
                       MEM_RANK_INTERLEAVE_AUTO);
-	*/
 
   #ifdef CONFIG_FSP_MEMORY_DOWN
     fsp_upd->memDownEnable = fdtdec_get_bool(blob, node, "fsp,memDownEnable");
@@ -119,8 +118,7 @@ void update_fsp_configs(struct fsp_config_data *config,
   #else
     fsp_upd->memFastBoot = fdtdec_get_int(blob, node, "fsp,mem-fast-boot", MEM_FAST_BOOT_DISABLE);
   #endif
-        
-/*
+
 	fsp_upd->pam0_hienable = fdtdec_get_int(blob, node, 
                       "fsp,pam0-hienable", 
                       PAM_RW_DRAM_ONLY);
@@ -220,12 +218,12 @@ void update_fsp_configs(struct fsp_config_data *config,
   fsp_upd->pchPciPort8 = fdtdec_get_bool(blob, node, "fsp,pch-pci-port8");
 	
 	fsp_upd->ehci1Enable = fdtdec_get_bool(blob, node, "fsp,ehci1-enable");
-	
+
   fsp_upd->hyperThreading = fdtdec_get_bool(blob, node, "fsp,hyper-threading");
-	
+
   fsp_upd->debugOutputLevel = fdtdec_get_int(blob, node, 
                         "fsp,debug-output-level", 
-                        DEBUG_OUTPUT_LEVEL_NORMAL);
+                        DEBUG_OUTPUT_LEVEL_MAXIMUM);
 	
   fsp_upd->tcoTimerHaltLock = fdtdec_get_bool(blob, node, "fsp,tco-timer-halt-lock");
 	
@@ -289,5 +287,5 @@ void update_fsp_configs(struct fsp_config_data *config,
                           "fsp,pch-pcie-port8-aspm", 
                           PCH_PCI_ASPM_DISABLED);
 	
-  fsp_upd->thermalDeviceEnable = fdtdec_get_bool(blob, node, "fsp,thermal-device-enable");*/
+  fsp_upd->thermalDeviceEnable = fdtdec_get_bool(blob, node, "fsp,thermal-device-enable");
 }

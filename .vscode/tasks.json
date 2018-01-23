@@ -4,12 +4,20 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "taskName": "buildrom",
+            "taskName": "buildposeidon",
             "type": "shell",
             "command": "export BUILD_ROM=y; make distclean; make poseidon_defconfig; make all",
             "group": {
                 "kind": "build",
                 "isDefault": true
+            }
+        },
+        {
+            "taskName": "buildintelcrb",
+            "type": "shell",
+            "command": "export BUILD_ROM=y; make distclean; make camelback_defconfig; make all",
+            "group": {
+                "kind": "build"
             }
         }
     ]
