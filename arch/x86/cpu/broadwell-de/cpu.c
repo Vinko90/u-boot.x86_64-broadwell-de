@@ -19,6 +19,8 @@
 #include <asm/mrccache.h>
 #include <asm/lapic.h>
 
+#define MSR_CORE_THREAD_COUNT 0x35
+
 static void configure_mca(void)
 {
 	msr_t msr;
@@ -63,21 +65,15 @@ static int cpu_x86_broadwell_de_probe(struct udevice *dev)
 
 static int broadwell_de_get_info(struct udevice *dev, struct cpu_info *info)
 {
-	char processor_name[CPU_MAX_NAME_LEN];
-    const char *name;
-  
-    /* Print processor name */
-    name = cpu_get_name(processor_name);
-    printf("CPU:   %s\n", name);
-  
-    post_code(POST_CPU_INFO);
+	//TBD
   
     return 0;
 }
 
 static int broadwell_de_get_count(struct udevice *dev)
 {
-	return cpu_get_count(dev);
+	msr_t core_thread_count = msr_read(MSR_CORE_THREAD_COUNT);
+	return core_thread_count.lo & 0xffff;
 }
 
 static const struct cpu_ops cpu_x86_broadwell_de_ops = {

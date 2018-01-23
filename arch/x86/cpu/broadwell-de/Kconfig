@@ -28,18 +28,6 @@ config FSP_ADDR
 	hex
 	default 0xffeb0000
 
-config FSP_USE_UPD
-	bool
-	default y
-
-#config FSP_MEMORY_DOWN
-#	bool
-#	default y
-
-#config HAVE_SPD
-#	bool
-#	default y
-
 config DCACHE_RAM_BASE
 	default 0xfef00000
 

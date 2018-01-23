@@ -173,7 +173,7 @@
 		fsp,pch-pci-port8;
 		fsp,ehci1-enable;
 		fsp,hyper-threading;
-		fsp,debug-output-level = <DEBUG_OUTPUT_LEVEL_MAXIMUM>;
+		fsp,debug-output-level = <DEBUG_OUTPUT_LEVEL_NORMAL>;
 		fsp,tco-timer-halt-lock;
 		fsp,turbo-mode;
 		fsp,boot-perf-mode;
