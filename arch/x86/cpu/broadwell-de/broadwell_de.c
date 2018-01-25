@@ -17,9 +17,6 @@ int arch_cpu_init(void)
 
 int arch_misc_init(void)
 {
-	if (!ll_boot_init())
-		return 0;
-
 #ifdef CONFIG_ENABLE_MRC_CACHE
 	/*
 	 * We intend not to check any return value here, as even MRC cache

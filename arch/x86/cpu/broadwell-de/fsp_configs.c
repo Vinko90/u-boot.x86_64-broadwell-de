@@ -35,7 +35,7 @@ void update_fsp_configs(struct fsp_config_data *config,
 
   fsp_upd->memEccSupport = fdtdec_get_int(blob, node, 
                       "fsp,memEccSupport",
-                       MEM_ECC_SUPPORT_DISABLED);
+                       MEM_ECC_SUPPORT_AUTO);
 
 	fsp_upd->memDdrMemoryType = fdtdec_get_int(blob, node, 
                       "fsp,memDdrMemoryType",
@@ -113,11 +113,12 @@ void update_fsp_configs(struct fsp_config_data *config,
                       0x0);
   #endif
 
-  #ifdef CONFIG_ENABLE_MRC_CACHE
-    fsp_upd->memFastBoot = fdtdec_get_int(blob, node, "fsp,mem-fast-boot", MEM_FAST_BOOT_ENABLE);
-  #else
-    fsp_upd->memFastBoot = fdtdec_get_int(blob, node, "fsp,mem-fast-boot", MEM_FAST_BOOT_DISABLE);
-  #endif
+  //#ifdef CONFIG_ENABLE_MRC_CACHE
+    //fsp_upd->memFastBoot = fdtdec_get_int(blob, node, "fsp,mem-fast-boot", MEM_FAST_BOOT_ENABLE);
+  //#else
+    //fsp_upd->memFastBoot = fdtdec_get_int(blob, node, "fsp,mem-fast-boot", MEM_FAST_BOOT_DISABLE);
+  //#endif
+  fsp_upd->memFastBoot = fdtdec_get_int(blob, node, "fsp,mem-fast-boot", MEM_FAST_BOOT_DISABLE);
 
 	fsp_upd->pam0_hienable = fdtdec_get_int(blob, node, 
                       "fsp,pam0-hienable", 

@@ -15,6 +15,16 @@
 #include <asm/arch/global_nvs.h>
 #include <asm/arch/iomap.h>
 
+#define PM1_STS			0x00
+#define PM1_CNT			0x04
+#define GEN_PMCON1		0xA0
+#define WAK_STS		    (1 << 15)
+#define PWR_FLR			(1 << 1)
+#define  SUS_PWR_FLR		(1 << 14)
+
+#define PMC_BASE_ADDRESS	0xfed03000
+#define PMC_BASE_SIZE		0x400
+
 void acpi_create_fadt(struct acpi_fadt *fadt, struct acpi_facs *facs,
 		      void *dsdt)
 {
@@ -186,3 +196,39 @@ void acpi_create_gnvs(struct acpi_global_nvs *gnvs)
 	else
 		gnvs->iuart_en = 0;
 }
+
+#ifdef CONFIG_HAVE_ACPI_RESUME
+
+enum acpi_sleep_state chipset_prev_sleep_state(void)
+{
+	u32 pm1_sts;
+	u32 pm1_cnt;
+	u32 gen_pmcon1;
+	enum acpi_sleep_state prev_sleep_state = ACPI_S0;
+
+	/* Read Power State */
+	pm1_sts = inw(ACPI_BASE_ADDRESS + PM1_STS);
+	pm1_cnt = inl(ACPI_BASE_ADDRESS + PM1_CNT);
+	gen_pmcon1 = readl(PMC_BASE_ADDRESS + GEN_PMCON1);
+
+	debug("PM1_STS = 0x%x PM1_CNT = 0x%x GEN_PMCON1 = 0x%x\n",
+	      pm1_sts, pm1_cnt, gen_pmcon1);
+
+	if (pm1_sts & WAK_STS)
+		prev_sleep_state = acpi_sleep_from_pm1(pm1_cnt);
+
+	if (gen_pmcon1 & (PWR_FLR | SUS_PWR_FLR))
+		prev_sleep_state = ACPI_S5;
+
+	return prev_sleep_state;
+}
+
+void chipset_clear_sleep_state(void)
+{
+	u32 pm1_cnt;
+
+	pm1_cnt = inl(ACPI_BASE_ADDRESS + PM1_CNT);
+	outl(pm1_cnt & ~(SLP_TYP), ACPI_BASE_ADDRESS + PM1_CNT);
+}
+
+#endif
