@@ -135,12 +135,11 @@
 			fsp,memDownCh1Dimm1SpdPtr = <0x0>;
 		#endif
 
-		/*#ifdef CONFIG_ENABLE_MRC_CACHE
+		#ifdef CONFIG_ENABLE_MRC_CACHE
 			fsp,mem-fast-boot = <MEM_FAST_BOOT_ENABLE>;
 		#else
 			fsp,mem-fast-boot = <MEM_FAST_BOOT_DISABLE>;
-		#endif*/
-		fsp,mem-fast-boot = <MEM_FAST_BOOT_DISABLE>;
+		#endif
 
         fsp,pam0-hienable = <PAM_RW_DRAM_ONLY>;
 		fsp,pam1-loenable = <PAM_RW_DRAM_ONLY>;

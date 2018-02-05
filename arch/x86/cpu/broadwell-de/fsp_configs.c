@@ -113,13 +113,12 @@ void update_fsp_configs(struct fsp_config_data *config,
                       0x0);
   #endif
 
-  //#ifdef CONFIG_ENABLE_MRC_CACHE
-    //fsp_upd->memFastBoot = fdtdec_get_int(blob, node, "fsp,mem-fast-boot", MEM_FAST_BOOT_ENABLE);
-  //#else
-    //fsp_upd->memFastBoot = fdtdec_get_int(blob, node, "fsp,mem-fast-boot", MEM_FAST_BOOT_DISABLE);
-  //#endif
-  fsp_upd->memFastBoot = fdtdec_get_int(blob, node, "fsp,mem-fast-boot", MEM_FAST_BOOT_DISABLE);
-
+  #ifdef CONFIG_ENABLE_MRC_CACHE
+    fsp_upd->memFastBoot = fdtdec_get_int(blob, node, "fsp,mem-fast-boot", MEM_FAST_BOOT_ENABLE);
+  #else
+    fsp_upd->memFastBoot = fdtdec_get_int(blob, node, "fsp,mem-fast-boot", MEM_FAST_BOOT_DISABLE);
+  #endif
+  
 	fsp_upd->pam0_hienable = fdtdec_get_int(blob, node, 
                       "fsp,pam0-hienable", 
                       PAM_RW_DRAM_ONLY);
