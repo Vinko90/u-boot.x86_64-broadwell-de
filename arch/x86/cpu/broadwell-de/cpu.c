@@ -62,7 +62,6 @@ static int cpu_x86_broadwell_de_probe(struct udevice *dev)
 	return 0;
 }
 
-
 static int broadwell_de_get_info(struct udevice *dev, struct cpu_info *info)
 {
 	//TBD
