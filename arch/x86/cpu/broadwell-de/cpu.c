@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017, Vincenzo Bove <vincenzo.bove@prodrive-technologies.com>
+ * Copyright (C) 2017, WarOfDevil <warofdevil@linux.com>
  *
  * SPDX-License-Identifier:	GPL-2.0+
  */
@@ -7,17 +7,8 @@
 #include <common.h>
 #include <dm.h>
 #include <cpu.h>
-#include <pci.h>
-#include <asm/cpu.h>
 #include <asm/cpu_x86.h>
-#include <asm/cpu_common.h>
-#include <asm/intel_regs.h>
-#include <asm/io.h>
 #include <asm/msr.h>
-#include <asm/post.h>
-#include <asm/turbo.h>
-#include <asm/mrccache.h>
-#include <asm/lapic.h>
 
 #define MSR_CORE_THREAD_COUNT 0x35
 

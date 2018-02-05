@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017, Vincenzo Bove <vincenzo.bove@prodrive-technologies.com>
+ * Copyright (C) 2017, WarOfDevil <warofdevil@linux.com>
  *
  * SPDX-License-Identifier:	GPL-2.0+
  */
@@ -13,7 +13,7 @@ DECLARE_GLOBAL_DATA_PTR;
 /**
  * Override the FSP's configuration data.
  * If the device tree does not specify an integer setting, use the default
- * provided by Prodrive BroadwellDE.rom
+ * provided by BroadwellDEFsp.bin
  */
 void update_fsp_configs(struct fsp_config_data *config,
 			struct fspinit_rtbuf *rt_buf)

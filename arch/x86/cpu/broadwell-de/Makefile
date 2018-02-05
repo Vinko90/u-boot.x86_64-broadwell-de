@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2017, Vincenzo Bove <vincenzo.bove@prodrive-technologies.com>
+# Copyright (C) 2017, WarOfDevil <warofdevil@linux.com>
 #
 # SPDX-License-Identifier:	GPL-2.0+
 #

@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2017, Vincenzo Bove <vincenzo.bove@prodrive-technologies.com>
+# Copyright (C) 2017, WarOfDevil <warofdevil@linux.com>
 #
 # SPDX-License-Identifier:	GPL-2.0+
 #
@@ -10,7 +10,6 @@ config INTEL_BROADWELL_DE
 	select ARCH_MISC_INIT
 	select CPU_INTEL_TURBO_NOT_PACKAGE_SCOPED
 	imply HAVE_INTEL_ME
-	#imply ENABLE_MRC_CACHE
 	imply AHCI_PCI
 	imply ICH_SPI
 	imply INTEL_ICH6_GPIO
@@ -27,16 +26,6 @@ if INTEL_BROADWELL_DE
 config FSP_ADDR
 	hex
 	default 0xffeb0000
-
-config FSP_BROKEN_HOB
-	bool
-	default y
-
-#config DCACHE_RAM_BASE
-#	default 0xfef00000
-
-#config DCACHE_RAM_SIZE
-#	default 0x4000
 
 config CPU_SPECIFIC_OPTIONS
 	def_bool y
