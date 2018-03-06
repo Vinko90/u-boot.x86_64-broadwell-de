@@ -204,6 +204,9 @@
 		update@2 {
 #include "microcode/broadwell_de_microcode/mff50661_f1000008.dtsi"
 		};
+		update@3 {
+#include "microcode/broadwell_de_microcode/m1050664_0f00000c.dtsi"
+		};
 	};
 
 };
